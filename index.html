@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>카카오맵 휴식 공간</title>
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <title>어디든 가자</title>
 
   <style>
 
@@ -17,9 +22,9 @@
     body {
       width: 100%;
       height: 100vh;
-      font-family: Arial, sans-serif;
       overflow: hidden;
-      background-color: #f7f7f7;
+      font-family: Arial, sans-serif;
+      background: #edf7ed;
     }
 
     /* 전체 레이아웃 */
@@ -31,87 +36,113 @@
 
     /* 왼쪽 패널 */
     .sidebar {
-      width: 35%;
+      width: 37%;
       min-width: 360px;
-      border-right: 1px solid #ddd;
-      background-color: white;
       display: flex;
       flex-direction: column;
+      background:
+        linear-gradient(
+          to bottom,
+          #f7fff7,
+          #edf8ed
+        );
+      border-right: 2px solid #d8ead8;
+      overflow: hidden;
     }
 
     /* 검색 영역 */
     .search-box {
       padding: 20px;
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid #dfeedd;
+      background:
+        linear-gradient(
+          to bottom,
+          #f8fff8,
+          #eef9ef
+        );
     }
 
     .search-box h2 {
-      margin-bottom: 15px;
-      font-size: 24px;
+      font-size: 30px;
+      margin-bottom: 18px;
+      color: #346041;
     }
 
     /* 검색 폼 */
     .search-form {
       display: flex;
       gap: 10px;
-      margin-bottom: 15px;
+      margin-bottom: 18px;
     }
 
     .search-form input {
       flex: 1;
       padding: 12px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
+      border-radius: 12px;
+      border: 1px solid #cfe3cf;
       font-size: 15px;
+      background: white;
     }
 
     .search-form button {
       padding: 12px 18px;
       border: none;
-      background-color: #fee500;
-      border-radius: 10px;
+      border-radius: 12px;
+      background: #79b77e;
+      color: white;
       font-weight: bold;
       cursor: pointer;
+      transition: 0.2s;
     }
 
     .search-form button:hover {
       opacity: 0.9;
     }
 
-    /* 길찾기 영역 */
+    /* 길찾기 */
     .route-box {
-      margin-bottom: 15px;
+      margin-bottom: 18px;
+      padding: 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.8);
+      border: 1px solid #d8ead8;
     }
 
-    .route-box h3 {
-      font-size: 16px;
+    .route-title {
+      font-size: 17px;
       margin-bottom: 10px;
+      font-weight: bold;
+      color: #346041;
     }
 
     .route-input {
       width: 100%;
-      padding: 10px;
+      padding: 11px;
       margin-bottom: 10px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
+      border-radius: 10px;
+      border: 1px solid #cfe3cf;
+      font-size: 14px;
     }
 
     .route-button {
       width: 100%;
       padding: 12px;
       border: none;
-      border-radius: 10px;
-      background-color: #4caf50;
+      border-radius: 12px;
+      background: #4f9862;
       color: white;
       font-weight: bold;
       cursor: pointer;
+      margin-bottom: 10px;
     }
 
     .route-result {
-      margin-top: 10px;
       font-size: 14px;
-      color: #444;
-      line-height: 1.5;
+      line-height: 1.7;
+      color: #45644d;
+      background: #f2faf2;
+      padding: 12px;
+      border-radius: 10px;
     }
 
     /* 탭 */
@@ -124,77 +155,101 @@
     .tab-button {
       padding: 10px 14px;
       border: none;
-      border-radius: 10px;
-      background-color: #f0f0f0;
-      cursor: pointer;
+      border-radius: 12px;
+      background: #dff0df;
+      color: #356744;
       font-weight: bold;
+      cursor: pointer;
       transition: 0.2s;
     }
 
     .tab-button.active {
-      background-color: #fee500;
+      background: #79b77e;
+      color: white;
     }
 
     /* 검색 결과 */
     .result-list {
       flex: 1;
       overflow-y: auto;
-      padding: 10px;
+      padding: 14px;
     }
 
     .place-item {
-      padding: 15px;
-      border-bottom: 1px solid #eee;
-      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 12px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.95);
+      border: 1px solid #deedde;
       cursor: pointer;
       transition: 0.2s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
     }
 
     .place-item:hover {
-      background-color: #f8f8f8;
+      transform: translateY(-2px);
+      background: #f7fff7;
     }
 
     .place-name {
-      font-size: 17px;
+      font-size: 18px;
       font-weight: bold;
       margin-bottom: 8px;
+      color: #355c3b;
     }
 
     .place-address {
       font-size: 14px;
       color: #666;
-      margin-bottom: 5px;
+      margin-bottom: 6px;
     }
 
     .place-phone {
       font-size: 13px;
       color: #888;
+      margin-bottom: 10px;
+    }
+
+    /* 휴식 설명 */
+    .place-description {
+      font-size: 13px;
+      line-height: 1.6;
+      color: #4d6b55;
+      background: #f3fbf3;
+      padding: 10px;
+      border-radius: 10px;
     }
 
     /* 지도 영역 */
     .map-area {
       flex: 1;
       position: relative;
+      background: #dff1df;
     }
 
     #map {
       width: 100%;
       height: 100%;
+      filter:
+        saturate(1.08)
+        contrast(1.02)
+        brightness(1.03);
     }
 
-    /* 커스텀 오버레이 */
+    /* 커스텀 말풍선 */
     .custom-overlay {
       width: 250px;
-      background-color: white;
-      border-radius: 14px;
-      padding: 14px;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.2);
-      border: 1px solid #ddd;
+      padding: 16px;
+      border-radius: 18px;
+      background: white;
+      border: 2px solid #dff0df;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.18);
     }
 
     .overlay-title {
       font-size: 16px;
       font-weight: bold;
+      color: #355c3b;
       margin-bottom: 8px;
     }
 
@@ -204,18 +259,25 @@
       margin-bottom: 10px;
     }
 
+    .overlay-description {
+      font-size: 13px;
+      line-height: 1.6;
+      color: #4f6a56;
+      margin-bottom: 12px;
+    }
+
     .overlay-link {
       display: inline-block;
       padding: 8px 12px;
-      background-color: #fee500;
-      border-radius: 8px;
+      border-radius: 10px;
+      background: #79b77e;
+      color: white;
       text-decoration: none;
-      color: black;
       font-size: 13px;
       font-weight: bold;
     }
 
-    /* 모바일 대응 */
+    /* 모바일 */
     @media (max-width: 768px) {
 
       .container {
@@ -234,6 +296,7 @@
     }
 
   </style>
+
 </head>
 
 <body>
@@ -245,9 +308,9 @@
 
       <div class="search-box">
 
-        <h2>휴식 공간 찾기</h2>
+        <h2>🌿 어디든 가자</h2>
 
-        <!-- 검색 -->
+        <!-- 장소 검색 -->
         <form
           class="search-form"
           id="searchForm"
@@ -268,7 +331,9 @@
         <!-- 길찾기 -->
         <div class="route-box">
 
-          <h3>길찾기</h3>
+          <div class="route-title">
+            🚶 길찾기
+          </div>
 
           <input
             type="text"
@@ -303,13 +368,6 @@
 
           <button
             class="tab-button active"
-            data-category="PK6"
-          >
-            자연
-          </button>
-
-          <button
-            class="tab-button"
             data-category="CT1"
           >
             문화
@@ -374,11 +432,11 @@
     // 오버레이 배열
     let overlays = [];
 
-    // 현재 위치 저장
+    // 현재 위치
     let currentPosition;
 
-    // 현재 선택 카테고리
-    let currentCategory = "PK6";
+    // 현재 카테고리
+    let currentCategory = "CT1";
 
     // 카카오맵 로딩
     kakao.maps.load(() => {
@@ -388,13 +446,17 @@
         // 위치 허용 성공
         (position) => {
 
-          const latitude = position.coords.latitude;
-          const longitude = position.coords.longitude;
+          const latitude =
+            position.coords.latitude;
 
-          currentPosition = new kakao.maps.LatLng(
-            latitude,
-            longitude
-          );
+          const longitude =
+            position.coords.longitude;
+
+          currentPosition =
+            new kakao.maps.LatLng(
+              latitude,
+              longitude
+            );
 
           initializeMap(currentPosition);
 
@@ -403,14 +465,17 @@
         // 위치 실패
         () => {
 
-          currentPosition = new kakao.maps.LatLng(
-            37.566826,
-            126.9786567
-          );
+          currentPosition =
+            new kakao.maps.LatLng(
+              37.566826,
+              126.9786567
+            );
 
           initializeMap(currentPosition);
 
-          alert("위치 정보를 가져오지 못했습니다.");
+          alert(
+            "현재 위치를 불러오지 못했습니다."
+          );
 
         }
 
@@ -421,7 +486,8 @@
     // 지도 초기화
     function initializeMap(centerPosition) {
 
-      const mapContainer = document.getElementById("map");
+      const mapContainer =
+        document.getElementById("map");
 
       const mapOption = {
         center: centerPosition,
@@ -429,13 +495,15 @@
       };
 
       // 지도 생성
-      map = new kakao.maps.Map(
-        mapContainer,
-        mapOption
-      );
+      map =
+        new kakao.maps.Map(
+          mapContainer,
+          mapOption
+        );
 
-      // 장소 검색 서비스
-      places = new kakao.maps.services.Places(map);
+      // 장소 검색 객체 생성
+      places =
+        new kakao.maps.services.Places(map);
 
       // 현재 위치 표시
       displayCurrentLocation(centerPosition);
@@ -445,28 +513,29 @@
       setupTabEvent();
       setupRouteEvent();
 
-      // 기본 탭 검색
-      searchCategoryPlaces("PK6");
+      // 기본 카테고리 검색
+      searchCategoryPlaces("CT1");
 
     }
 
-    // 현재 위치 나무 표시
+    // 현재 위치 표시
     function displayCurrentLocation(position) {
 
-      const treeOverlay = new kakao.maps.CustomOverlay({
+      const treeOverlay =
+        new kakao.maps.CustomOverlay({
 
-        position: position,
+          position: position,
 
-        content: `
-          <div style="
-            font-size:34px;
-            transform:translateY(-20px);
-          ">
-            🌳
-          </div>
-        `
+          content: `
+            <div style="
+              font-size:40px;
+              transform:translateY(-22px);
+            ">
+              🌳
+            </div>
+          `
 
-      });
+        });
 
       treeOverlay.setMap(map);
 
@@ -475,34 +544,43 @@
     // 검색 이벤트
     function setupSearchEvent() {
 
-      const searchForm = document.getElementById("searchForm");
+      const searchForm =
+        document.getElementById("searchForm");
 
-      searchForm.addEventListener("submit", (event) => {
+      searchForm.addEventListener(
 
-        event.preventDefault();
+        "submit",
 
-        const keyword = document
-          .getElementById("keyword")
-          .value
-          .trim();
+        (event) => {
 
-        if (!keyword) {
+          event.preventDefault();
 
-          alert("검색어를 입력해주세요.");
-          return;
+          const keyword =
+            document
+              .getElementById("keyword")
+              .value
+              .trim();
+
+          if (!keyword) {
+
+            alert("검색어를 입력해주세요.");
+            return;
+
+          }
+
+          searchKeywordPlaces(keyword);
 
         }
 
-        searchKeywordPlaces(keyword);
-
-      });
+      );
 
     }
 
     // 탭 이벤트
     function setupTabEvent() {
 
-      const tabButtons = document.querySelectorAll(".tab-button");
+      const tabButtons =
+        document.querySelectorAll(".tab-button");
 
       tabButtons.forEach((button) => {
 
@@ -514,7 +592,8 @@
 
           button.classList.add("active");
 
-          currentCategory = button.dataset.category;
+          currentCategory =
+            button.dataset.category;
 
           searchCategoryPlaces(currentCategory);
 
@@ -527,98 +606,147 @@
     // 길찾기 이벤트
     function setupRouteEvent() {
 
-      const routeButton = document.getElementById("routeButton");
+      const routeButton =
+        document.getElementById("routeButton");
 
       routeButton.addEventListener("click", () => {
 
-        const startPlace = document
-          .getElementById("startPlace")
-          .value
-          .trim();
+        const startPlace =
+          document
+            .getElementById("startPlace")
+            .value
+            .trim();
 
-        const endPlace = document
-          .getElementById("endPlace")
-          .value
-          .trim();
+        const endPlace =
+          document
+            .getElementById("endPlace")
+            .value
+            .trim();
 
         if (!startPlace || !endPlace) {
 
-          alert("출발지와 도착지를 입력해주세요.");
+          alert(
+            "출발지와 도착지를 입력해주세요."
+          );
+
           return;
 
         }
 
-        calculateTravelTime(startPlace, endPlace);
+        calculateTravelTime(
+          startPlace,
+          endPlace
+        );
 
       });
 
     }
 
-    // 예상 소요 시간 계산
-    function calculateTravelTime(startPlace, endPlace) {
+    // 이동 시간 계산
+    function calculateTravelTime(
+      startPlace,
+      endPlace
+    ) {
 
-      places.keywordSearch(startPlace, (startData, startStatus) => {
+      places.keywordSearch(
 
-        if (startStatus !== kakao.maps.services.Status.OK) {
+        startPlace,
 
-          alert("출발지를 찾을 수 없습니다.");
-          return;
+        (startData, startStatus) => {
 
-        }
+          if (
+            startStatus !==
+            kakao.maps.services.Status.OK
+          ) {
 
-        places.keywordSearch(endPlace, (endData, endStatus) => {
-
-          if (endStatus !== kakao.maps.services.Status.OK) {
-
-            alert("도착지를 찾을 수 없습니다.");
+            alert("출발지를 찾을 수 없습니다.");
             return;
 
           }
 
-          const startLat = parseFloat(startData[0].y);
-          const startLng = parseFloat(startData[0].x);
+          places.keywordSearch(
 
-          const endLat = parseFloat(endData[0].y);
-          const endLng = parseFloat(endData[0].x);
+            endPlace,
 
-          // 거리 계산
-          const distance = getDistance(
-            startLat,
-            startLng,
-            endLat,
-            endLng
+            (endData, endStatus) => {
+
+              if (
+                endStatus !==
+                kakao.maps.services.Status.OK
+              ) {
+
+                alert("도착지를 찾을 수 없습니다.");
+                return;
+
+              }
+
+              const startLat =
+                parseFloat(startData[0].y);
+
+              const startLng =
+                parseFloat(startData[0].x);
+
+              const endLat =
+                parseFloat(endData[0].y);
+
+              const endLng =
+                parseFloat(endData[0].x);
+
+              const distance =
+                getDistance(
+                  startLat,
+                  startLng,
+                  endLat,
+                  endLng
+                );
+
+              const walkTime =
+                Math.round(distance / 4);
+
+              const carTime =
+                Math.round(distance / 40 * 60);
+
+              const routeResult =
+                document.getElementById(
+                  "routeResult"
+                );
+
+              routeResult.innerHTML = `
+                📍 거리 : ${distance.toFixed(1)} km<br>
+                🚶 도보 : 약 ${walkTime} 시간<br>
+                🚗 자동차 : 약 ${carTime} 분
+              `;
+
+            }
+
           );
 
-          // 평균 이동 속도 기준 계산
-          const walkTime = Math.round(distance / 4);
-          const carTime = Math.round(distance / 40);
+        }
 
-          const routeResult = document.getElementById("routeResult");
-
-          routeResult.innerHTML = `
-            📍 거리: ${distance.toFixed(1)} km<br>
-            🚶 도보 약 ${walkTime} 시간<br>
-            🚗 자동차 약 ${carTime} 시간
-          `;
-
-        });
-
-      });
+      );
 
     }
 
     // 거리 계산 함수
-    function getDistance(lat1, lng1, lat2, lng2) {
+    function getDistance(
+      lat1,
+      lng1,
+      lat2,
+      lng2
+    ) {
 
       const earthRadius = 6371;
 
       const latitudeDiff =
-        (lat2 - lat1) * Math.PI / 180;
+        (lat2 - lat1) *
+        Math.PI / 180;
 
       const longitudeDiff =
-        (lng2 - lng1) * Math.PI / 180;
+        (lng2 - lng1) *
+        Math.PI / 180;
 
       const calculation =
+
         Math.sin(latitudeDiff / 2) *
         Math.sin(latitudeDiff / 2) +
 
@@ -629,6 +757,7 @@
         Math.sin(longitudeDiff / 2);
 
       const distance =
+
         2 *
         Math.atan2(
           Math.sqrt(calculation),
@@ -636,6 +765,41 @@
         );
 
       return earthRadius * distance;
+
+    }
+
+    // 휴식 설명 생성
+    function getRelaxDescription(place) {
+
+      // 문화
+      if (currentCategory === "CT1") {
+
+        return "전시·공연·문화 공간을 통해 감성과 영감을 얻으며 조용한 문화적 휴식을 즐길 수 있는 장소예요.";
+
+      }
+
+      // 음식·카페
+      if (currentCategory === "FOOD") {
+
+        return "맛있는 음식과 향긋한 커피를 즐기며 여유로운 시간을 보내기 좋은 휴식 공간이에요.";
+
+      }
+
+      // 숙박
+      if (currentCategory === "AD5") {
+
+        return "편안한 숙박과 아늑한 분위기를 통해 몸과 마음의 피로를 풀 수 있는 공간이에요.";
+
+      }
+
+      // 관광명소
+      if (currentCategory === "AT4") {
+
+        return "아름다운 풍경과 특별한 분위기를 통해 여행의 즐거움과 힐링을 느낄 수 있는 장소예요.";
+
+      }
+
+      return "편안하게 쉬어갈 수 있는 장소예요.";
 
     }
 
@@ -650,7 +814,10 @@
 
         (data, status) => {
 
-          if (status === kakao.maps.services.Status.OK) {
+          if (
+            status ===
+            kakao.maps.services.Status.OK
+          ) {
 
             displayPlaces(data);
 
@@ -674,7 +841,10 @@
       // 음식 + 카페
       if (categoryCode === "FOOD") {
 
-        searchMultipleCategories(["FD6", "CE7"]);
+        searchMultipleCategories(
+          ["FD6", "CE7"]
+        );
+
         return;
 
       }
@@ -685,7 +855,10 @@
 
         (data, status) => {
 
-          if (status === kakao.maps.services.Status.OK) {
+          if (
+            status ===
+            kakao.maps.services.Status.OK
+          ) {
 
             displayPlaces(data);
 
@@ -707,7 +880,9 @@
     }
 
     // 여러 카테고리 검색
-    function searchMultipleCategories(categoryArray) {
+    function searchMultipleCategories(
+      categoryArray
+    ) {
 
       let combinedData = [];
 
@@ -723,7 +898,10 @@
 
             completedCount++;
 
-            if (status === kakao.maps.services.Status.OK) {
+            if (
+              status ===
+              kakao.maps.services.Status.OK
+            ) {
 
               combinedData =
                 combinedData.concat(data);
@@ -752,7 +930,7 @@
 
     }
 
-    // 장소 출력
+    // 장소 표시
     function displayPlaces(placeData) {
 
       const resultList =
@@ -771,24 +949,30 @@
             place.x
           );
 
-        // 마커 색상
+        // 휴식 설명
+        const relaxDescription =
+          getRelaxDescription(place);
+
+        // 기본 마커 색상
         let markerColor = "#6EC6FF";
 
-        // 자연
-        if (currentCategory === "PK6") {
-
-          markerColor = "#9BE15D";
-
-        }
-
         // 문화
-        else if (currentCategory === "CT1") {
+        if (currentCategory === "CT1") {
 
           markerColor = "#FFD93D";
 
         }
 
-        // SVG 마커
+        // 관광명소
+        else if (
+          currentCategory === "AT4"
+        ) {
+
+          markerColor = "#A8E063";
+
+        }
+
+        // SVG 마커 생성
         const markerImage =
           new kakao.maps.MarkerImage(
 
@@ -796,14 +980,14 @@
 
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="40"
-              height="40"
+              width="42"
+              height="42"
             >
 
               <circle
-                cx="20"
-                cy="20"
-                r="15"
+                cx="21"
+                cy="21"
+                r="16"
                 fill="${markerColor}"
                 stroke="white"
                 stroke-width="4"
@@ -811,7 +995,7 @@
 
             </svg>`,
 
-            new kakao.maps.Size(40, 40)
+            new kakao.maps.Size(42, 42)
 
           );
 
@@ -840,6 +1024,10 @@
 
             <div class="overlay-phone">
               📞 ${place.phone || "전화번호 없음"}
+            </div>
+
+            <div class="overlay-description">
+              🌿 ${relaxDescription}
             </div>
 
             <a
@@ -882,7 +1070,7 @@
 
         );
 
-        // 리스트 생성
+        // 검색 결과 아이템
         const item =
           document.createElement("div");
 
@@ -900,6 +1088,10 @@
 
           <div class="place-phone">
             ${place.phone || "전화번호 없음"}
+          </div>
+
+          <div class="place-description">
+            🌿 ${relaxDescription}
           </div>
 
         `;
@@ -923,7 +1115,7 @@
 
     }
 
-    // 모든 오버레이 닫기
+    // 오버레이 닫기
     function closeAllOverlays() {
 
       overlays.forEach((overlay) => {
@@ -932,7 +1124,7 @@
 
     }
 
-    // 기존 마커 제거
+    // 마커 제거
     function removeMarkers() {
 
       markers.forEach((marker) => {
